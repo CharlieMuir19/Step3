@@ -16,6 +16,7 @@ public class JSONProcessor {
     JSONObject batchDetails = new JSONObject();
     JSONObject gradeDetails = new JSONObject();
     JSONObject batchObject = new JSONObject();
+    JSONObject pricingObject = new JSONObject();
     private InputHandler inputHandler;
 
     public JSONProcessor(InputHandler inputHandler) {
@@ -23,7 +24,7 @@ public class JSONProcessor {
     }
 
     //save the batch details to a json file in a specified filepath
-    public void saveJsonfile(String batchNumber, String date, String fruitCode, int batchWeight) {
+    public void saveJsonBatchfile(String batchNumber, String date, String fruitCode, int batchWeight) {
         batchDetails.put("Batch Number: ", batchNumber);
         batchDetails.put("Recieved Date: ", date);
         batchDetails.put("Fruit: ", fruitCode);
@@ -105,32 +106,28 @@ public class JSONProcessor {
 
             //calculate the weight of each individual grade for the fruit
             long gradeAPercentage = (long) gradeObject.get("Grade A: ");
-            float gradeWeightA = (((float) weight / 100 )* gradeAPercentage);
+            float gradeWeightA = (((float) weight / 100) * gradeAPercentage);
             System.out.println("Grade A: " + gradeAPercentage + "% = ");
             System.out.printf("%.2f", gradeWeightA);
             System.out.print("kgs");
-            System.out.println("\n");
 
             long gradeBPercentage = (long) gradeObject.get("Grade B: ");
             float gradeWeightB = (((float) weight / 100) * gradeBPercentage);
-            System.out.println("Grade B: " + gradeBPercentage + "% = ");
+            System.out.println("\nGrade B: " + gradeBPercentage + "% = ");
             System.out.printf("%.2f", gradeWeightB);
             System.out.print("kgs");
-            System.out.println("\n");
 
             long gradeCPercentage = (long) gradeObject.get("Grade C: ");
-            float gradeWeightC = (((float)weight / 100) * gradeCPercentage);
-            System.out.println("Grade C: " + gradeCPercentage + "% = ");
+            float gradeWeightC = (((float) weight / 100) * gradeCPercentage);
+            System.out.println("\nGrade C: " + gradeCPercentage + "% = ");
             System.out.printf("%.2f", gradeWeightC);
             System.out.print("kgs");
-            System.out.println("\n");
 
             long rejectedPercentage = (long) gradeObject.get("Rejected: ");
-            float rejectedWeight = (((float)weight / 100) * rejectedPercentage);
-            System.out.println("Rejects: " + rejectedPercentage + "% = ");
+            float rejectedWeight = (((float) weight / 100) * rejectedPercentage);
+            System.out.println("\nRejects: " + rejectedPercentage + "% = ");
             System.out.printf("%.2f", rejectedWeight);
             System.out.print("kgs");
-            System.out.println("\n");
         } catch (Exception e) {
             System.out.println("Please grade this batch before viewing grade details.");
         }
@@ -272,4 +269,110 @@ public class JSONProcessor {
             }
         }
     }
+
+    public boolean checkJSONPrice(String date) {
+        try (FileReader reader = new FileReader("C:\\Users\\GA\\Documents\\Year1\\CS112 Programming 1- T3 Project\\step1Output\\" + date + "PRICING.json")) {
+            System.out.println("\n\nPrices for " + date + " have been set.\n");
+            return true;
+        } catch (IOException e) {
+            System.out.println("\n\nPrices for " + date + " have not been set. \nPlease enter fruit prices before proceeding.");
+            return false;
+        }
+    }
+
+    public void writeJSONPriceFile(String date, double stGradeAPrice, double stGradeBPrice, double stGradeCPrice, double stRejectedPrice,
+                                   double raGradeAPrice, double raGradeBPrice, double raGradeCPrice, double raRejectedPrice,
+                                   double blGradeAPrice, double blGradeBPrice, double blGradeCPrice, double blRejectedPrice,
+                                   double goGradeAPrice, double goGradeBPrice, double goGradeCPrice, double goRejectedPrice) {
+        JSONObject pricingDetails = new JSONObject();
+        pricingDetails.put("ST Grade A Price ", stGradeAPrice);
+        pricingDetails.put("ST Grade B Price ", stGradeBPrice);
+        pricingDetails.put("ST Grade C Price ", stGradeCPrice);
+        pricingDetails.put("ST Rejected Price ", stRejectedPrice);
+
+        pricingDetails.put("RA Grade A Price ", raGradeAPrice);
+        pricingDetails.put("RA Grade B Price ", raGradeBPrice);
+        pricingDetails.put("RA Grade C Price ", raGradeCPrice);
+        pricingDetails.put("RA Rejected Price ", raRejectedPrice);
+
+        pricingDetails.put("BL Grade A Price ", blGradeAPrice);
+        pricingDetails.put("BL Grade B Price ", blGradeBPrice);
+        pricingDetails.put("BL Grade C Price ", blGradeCPrice);
+        pricingDetails.put("BL Rejected Price ", blRejectedPrice);
+
+        pricingDetails.put("GO Grade A Price ", goGradeAPrice);
+        pricingDetails.put("GO Grade B Price ", goGradeBPrice);
+        pricingDetails.put("GO Grade C Price ", goGradeCPrice);
+        pricingDetails.put("GO Rejected Price ", goRejectedPrice);
+
+        pricingObject.put("Pricing Details: ", pricingDetails);
+
+        //Write to the JSON file
+        Path filepath = Paths.get("C:\\Users\\GA\\Documents\\Year1\\CS112 Programming 1- T3 Project\\step1Output\\" + date + "PRICING.json");
+
+        try (FileWriter file = new FileWriter(String.valueOf(filepath))) {
+            file.write(pricingObject.toJSONString());
+            file.flush();
+            System.out.println("Prices saved to " + date + "PRICING.json");
+        } catch (IOException e) {
+            System.out.println("Prices have already been set for the day.");
+        }
+    }
+
+    public void readJSONPrices(String date){
+        JSONParser jsonParser = new JSONParser();
+        try (FileReader reader = new FileReader("C:\\Users\\GA\\Documents\\Year1\\CS112 Programming 1- T3 Project\\step1Output\\" + date + "PRICING.json")) {
+            Object obj = jsonParser.parse(reader);
+            JSONArray batchList = new JSONArray();
+            batchList.add(obj);
+            batchList.forEach(btc -> readPricingObject((JSONObject) btc));
+        } catch (IOException | ParseException e) {
+            System.out.println("Sorry, batch not found");
+        }
+    }
+
+    private void readPricingObject(JSONObject btc) {
+        JSONObject pricingObjects = (JSONObject) btc.get("Pricing Details: ");
+        System.out.println("[Farmers prices]\nStrawberries: ");
+
+        double stGradeA = (double) pricingObjects.get("ST Grade A Price ");
+        System.out.print("Grade A: £" + stGradeA + ", ");
+        double stGradeB = (double) pricingObjects.get("ST Grade B Price ");
+        System.out.print("Grade B: £" + stGradeB + ", ");
+        double stGradeC = (double) pricingObjects.get("ST Grade C Price ");
+        System.out.print("Grade C: £" + stGradeC + ", ");
+        double stRejected = (double) pricingObjects.get("ST Rejected Price ");
+        System.out.print("Rejects: £" + stRejected + ", \n");
+
+        System.out.println("Raspberries: ");
+        double raGradeA = (double) pricingObjects.get("RA Grade A Price ");
+        System.out.print("Grade A: £" + raGradeA + ", ");
+        double raGradeB = (double) pricingObjects.get("RA Grade B Price ");
+        System.out.print("Grade B: £" + raGradeB + ", ");
+        double raGradeC = (double) pricingObjects.get("RA Grade C Price ");
+        System.out.print("Grade C: £" + raGradeC + ", ");
+        double raRejected = (double) pricingObjects.get("RA Rejected Price ");
+        System.out.print("Rejects: £" + raRejected + ", \n");
+
+        System.out.println("Blackberries: ");
+        double blGradeA = (double) pricingObjects.get("BL Grade A Price ");
+        System.out.print("Grade A: £" + blGradeA + ", ");
+        double blGradeB = (double) pricingObjects.get("BL Grade B Price ");
+        System.out.print("Grade B: £" + blGradeB + ", ");
+        double blGradeC = (double) pricingObjects.get("BL Grade C Price ");
+        System.out.print("Grade C: £" + blGradeC + ", ");
+        double blRejected = (double) pricingObjects.get("BL Rejected Price ");
+        System.out.print("Rejects: £" + blRejected + ", \n");
+
+        System.out.println("Gooseberries: ");
+        double goGradeA = (double) pricingObjects.get("GO Grade A Price ");
+        System.out.print("Grade A: £" + goGradeA + ", ");
+        double goGradeB = (double) pricingObjects.get("GO Grade B Price ");
+        System.out.print("Grade B: £" + goGradeB + ", ");
+        double goGradeC = (double) pricingObjects.get("GO Grade C Price ");
+        System.out.print("Grade C: £" + goGradeC + ", ");
+        double goRejected = (double) pricingObjects.get("GO Rejected Price ");
+        System.out.print("Rejects: £" + goRejected + ", \n");
+    }
+
 }

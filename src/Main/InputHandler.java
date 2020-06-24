@@ -1,4 +1,7 @@
+import java.text.DecimalFormat;
 import java.util.Scanner;
+
+import static jdk.nashorn.internal.objects.NativeMath.round;
 
 //The InputHandler class decides whether input is valid and within range of scope for each process
 // farmCode, batchWeight, deciding which option to take.
@@ -67,4 +70,23 @@ public class InputHandler {
         return grade;
     }
 
+    public static double getPrice() {
+        //sourced the decimal format for the price from an answer on a stack overflow forum
+        //https://stackoverflow.com/questions/2808535/round-a-double-to-2-decimal-places
+
+        double price = 0;
+        if(reader.hasNextDouble()){
+            double temp = reader.nextDouble();
+            if (temp<0){
+                System.out.println("No valid input - too low");
+                price = -1;
+            } else{
+                DecimalFormat df = new DecimalFormat("####0.00");
+                price = Double.parseDouble(df.format(temp));
+            }
+        } else if (reader.next().matches(".*[a-z].*")){
+            System.out.println("Invalid Input - TEXT");
+            price = -1;
+        } return price;
+    }
 }

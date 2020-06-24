@@ -8,67 +8,105 @@ public class Processor {
 
     //We create instances of Batch, Fruit, JSONProcessor and InputHandler to access methods to get and set data.
     private Batch b;
-    private Fruit fruit;
+    private Fruit f;
     private JSONProcessor jsonP;
     private InputHandler inputHandler;
+    private Prices p;
 
     //Processor constructor sets batch, fruit and inputhandler to start, and creates a new JSONProcessor
     public Processor(Batch b, Fruit fruit, InputHandler inputHandler) {
         this.b = b;
-        this.fruit = fruit;
+        this.f = fruit;
         this.inputHandler = inputHandler;
         this.jsonP = new JSONProcessor(inputHandler);
+        this.p = new Prices(b, inputHandler, jsonP);
     }
 
     //Main calls this method to begin the program, displays welcome to the user
     public void addNewBatch() {
         System.out.print("Welcome to Renfrewshire Soft Fruits Co batch system.");
         System.out.print("This system allows you to create batches of fruit.");
+        checkDailyPrice();
         selectFunction();
     }
 
+    private void checkDailyPrice() {
+        String date = generateDate();
+        boolean pricingFile = jsonP.checkJSONPrice(date);
+        if (pricingFile == true) {
+            generateDate();
+            displayDate();
+            jsonP.readJSONPrices(date);
+        } else if (pricingFile == false) {
+            System.out.println("Would you like to enter pricing for " + date + "?");
+            System.out.println("1.YES");
+            System.out.println("2.NO");
+            int decide = inputHandler.decide(1, 2);
+            if (decide == -1) {
+                checkDailyPrice();
+            } else if (decide == 1) {
+                setPrices();
+            }
+        }
+    }
+
+
+
     //displays to the user the options they can take inside the program
     private void selectFunction() {
-        System.out.println("Please select a function.");
+        System.out.println("\nPlease select a function.");
         System.out.println("1. Create a new batch");
         System.out.println("2. List all Batches");
         System.out.println("3. View details of a batch");
         System.out.println("4. Sort/Grade a batch");
-        System.out.println("5. Quit");
+        System.out.println("5. Enter daily price");
+        System.out.println("6. Quit");
         System.out.println("Please enter 1 to 5");
         startChoice();
     }
 
     //The date is generated and set within Batch
-    private void generateDate() {
+    private String generateDate() {
         DateTimeFormatter dateformat;
         dateformat = DateTimeFormatter.ofPattern("ddMMyyyy");
         LocalDateTime now = LocalDateTime.now();
         String date = dateformat.format(now);
         b.setDate(date);
-        displayDate();
+        return date;
     }
 
     //Based on the input, decide whether to create a new batch, list batches,
     // get specific batch details, sort/grade batches or quit the system.
     private void startChoice() {
-        int startChoice = inputHandler.decide(1, 5);
-        if (startChoice == -1) {
-            startChoice();
-        } else if (startChoice == 1) {
-            generateDate();
-        } else if (startChoice == 2) {
-            jsonP.listAllBatches();
-            selectFunction();
-        } else if (startChoice == 3) {
-            viewBatchDetail();
-        } else if (startChoice == 4) {
-            sortGradeBatches();
-        } else if (startChoice == 5) {
-            System.out.println("Thank you for using Renfewshire Soft Fruits batch system");
-            System.exit(0);
+        int startChoice = inputHandler.decide(1, 6);
+        switch (startChoice) {
+            case -1:
+                startChoice();
+                break;
+            case 1:
+                generateDate();
+                displayDate();
+                askFarmCode();
+                break;
+            case 2:
+                jsonP.listAllBatches();
+                selectFunction();
+                break;
+            case 3:
+                viewBatchDetail();
+                break;
+            case 4:
+                sortGradeBatches();
+                break;
+            case 5:
+                setPrices();
+                break;
+            case 6:
+                System.out.println("Thank you for using Renfewshire Soft Fruits batch system");
+                System.exit(0);
         }
     }
+
 
     //If the user selects to grade a batch, the program displays the data and recieves the file from user,
     //the JSONProcesor method to get the grades from the user
@@ -89,7 +127,6 @@ public class Processor {
     //Display the date
     private void displayDate() {
         System.out.println("Date: " + b.getDate());
-        askFarmCode();
     }
 
     //Ask user to enter farm code and set if valid
@@ -110,9 +147,9 @@ public class Processor {
     //print the farmCode after set
     private void printFarmCode() {
         System.out.println("Farm Code: " + b.getFarmCode());
-        fruit.askFruitType();
-        b.setFruit(fruit.returnFruit());
-        b.setFruitCode(fruit.returnFruitCode());
+        f.askFruitType();
+        b.setFruit(f.returnFruit());
+        b.setFruitCode(f.returnFruitCode());
         System.out.println("You choose: " + b.getFruit());
         askBatchWeight();
     }
@@ -154,7 +191,7 @@ public class Processor {
         String date = b.getDate();
         String batchNumber = b.getBatchNumber();
         int batchWeight = b.getBatchWeight();
-        jsonP.saveJsonfile(batchNumber, date, fruitCode, batchWeight);
+        jsonP.saveJsonBatchfile(batchNumber, date, fruitCode, batchWeight);
         askPrintDetails();
     }
 
@@ -194,6 +231,16 @@ public class Processor {
         } else {
             viewBatchDetail();
         }
+    }
+
+    public void setPrices() {
+        System.out.println("[All prices entered will be formatted to 2dp.]");
+        String date = generateDate();
+        p.setSTDailyPrice();
+        p.setRADailyPrice();
+        p.setBLDailyPrice();
+        p.setGODailyPrice();
+        p.savePricesToFile(date);
     }
 
 }

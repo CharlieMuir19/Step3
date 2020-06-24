@@ -82,4 +82,7 @@ public class Batch {
     public int getGradeC() { return gradeC; }
 
     public int getRejected() { return rejected; }
+
+
+
 }
