@@ -17,117 +17,198 @@ public class Prices {
     void setSTDailyPrice() {
         System.out.println("\nPlease enter prices for " + listOfFruits[0]);
         System.out.println("Please enter grade A price. \n£");
-        stGradeAPrice = inputHandler.getPrice();
-        if(stGradeAPrice == -1){
+        double tempStA = inputHandler.getPrice();
+        if(tempStA == -1){
             System.out.println("ERROR - Price cannot be negative");
             setSTDailyPrice();
+        }else{
+            setStGradeAPrice(tempStA);
         }
+
         System.out.println("Please enter grade B price.");
-        stGradeBPrice = inputHandler.getPrice();
-        if(stGradeBPrice == -1){
+        double tempStB = inputHandler.getPrice();
+        if(tempStB == -1){
             System.out.println("ERROR - Price cannot be negative");
             setSTDailyPrice();
+        }else{
+            setStGradeBPrice(tempStB);
         }
+
         System.out.println("Please enter grade C price.");
-        stGradeCPrice = inputHandler.getPrice();
-        if(stGradeCPrice == -1){
+        double tempStC = inputHandler.getPrice();
+        if(tempStC == -1){
             System.out.println("ERROR - Price cannot be negative");
             setSTDailyPrice();
+        }else{
+            setStGradeCPrice(tempStC);
         }
+
         System.out.println("Please enter rejects price.");
-        stRejectedPrice = inputHandler.getPrice();
-        if(stRejectedPrice == -1){
+        double tempStR = inputHandler.getPrice();
+        if(tempStR == -1){
             System.out.println("ERROR - Price cannot be negative");
+            setSTDailyPrice();
+        }else{
+            setStRejectedPrice(tempStR);
+        }
+
+        System.out.println("Your prices are: \nGrade A: " + getStGradeAPrice()
+        + "\nGrade B: " + getStGradeBPrice() + "\nGrade C: " + getStGradeCPrice()
+        + "\nRejects: " + getStRejectedPrice() + "\nIs this correct?");
+        System.out.println("1. YES - SAVE");
+        System.out.println("2. NO - RESTART");
+        int confirm = inputHandler.decide(1,2);
+        if(confirm == 2){
             setSTDailyPrice();
         }
     }
 
     void setRADailyPrice() {
-        String[] listOfFruits = {"Strawberry", "Raspberry", "Blackberry", "Gooseberry"};
         System.out.println("\nPlease enter prices for " + listOfFruits[1]);
         batch.setFruit(listOfFruits[1]);
         System.out.println("Please enter grade A price.");
-        raGradeAPrice = inputHandler.getPrice();
-        if(raGradeAPrice == -1){
+        double tempRaA = inputHandler.getPrice();
+        if(tempRaA == -1){
             System.out.println("ERROR - Price cannot be negative");
             setRADailyPrice();
+        } else{
+            setRaGradeAPrice(tempRaA);
         }
+
         System.out.println("Please enter grade B price.");
-        raGradeBPrice = inputHandler.getPrice();
-        if(raGradeBPrice == -1){
+        double tempRaB = inputHandler.getPrice();
+        if(tempRaB == -1){
             System.out.println("ERROR - Price cannot be negative");
             setRADailyPrice();
+        }else{
+            setRaGradeBPrice(tempRaB);
         }
+
         System.out.println("Please enter grade C price.");
-        raGradeCPrice = inputHandler.getPrice();
-        if(raGradeCPrice == -1){
+        double tempRaC = inputHandler.getPrice();
+        if(tempRaC == -1){
             System.out.println("ERROR - Price cannot be negative");
             setRADailyPrice();
+        }else{
+            setRaGradeCPrice(tempRaC);
         }
+
         System.out.println("Please enter rejects price.");
-        raRejectedPrice = inputHandler.getPrice();
-        if(raRejectedPrice == -1){
+        double tempRaR = inputHandler.getPrice();
+        if(tempRaR == -1){
             System.out.println("ERROR - Price cannot be negative");
             setRADailyPrice();
+        }else{
+            setRaRejectedPrice(tempRaR);
         }
+
+        System.out.println("Your prices are: \nGrade A: " + getRaGradeAPrice()
+                + "\nGrade B: " + getRaGradeBPrice() + "\nGrade C: " + getRaGradeCPrice()
+                + "\nRejects: " + getRaRejectedPrice() + "\nIs this correct?");
+        System.out.println("1. YES - SAVE");
+        System.out.println("2. NO - RESTART");
+        int confirm = inputHandler.decide(1,2);
+        if(confirm == 2){
+            setRADailyPrice();
+        }
+
     }
 
     void setBLDailyPrice() {
-        String[] listOfFruits = {"Strawberry", "Raspberry", "Blackberry", "Gooseberry"};
         System.out.println("\nPlease enter prices for " + listOfFruits[2]);
         batch.setFruit(listOfFruits[2]);
         System.out.println("Please enter grade A price.");
-        blGradeAPrice = inputHandler.getPrice();
-        if(blGradeAPrice == -1){
+        double tempBlA = inputHandler.getPrice();
+        if(tempBlA == -1){
             System.out.println("ERROR - Price cannot be negative");
             setBLDailyPrice();
+        }else{
+            setBlGradeAPrice(tempBlA);
         }
+
         System.out.println("Please enter grade B price.");
-        blGradeBPrice = inputHandler.getPrice();
-        if(blGradeBPrice == -1){
+        double tempBlB = inputHandler.getPrice();
+        if(tempBlB == -1){
             System.out.println("ERROR - Price cannot be negative");
             setBLDailyPrice();
+        }else{
+            setBlGradeBPrice(tempBlB);
         }
+
         System.out.println("Please enter grade C price.");
-        blGradeCPrice = inputHandler.getPrice();
-        if(blGradeCPrice == -1){
+        double tempBlC = inputHandler.getPrice();
+        if(tempBlC == -1){
             System.out.println("ERROR - Price cannot be negative");
             setBLDailyPrice();
+        }else{
+            setBlGradeCPrice(tempBlC);
         }
+
         System.out.println("Please enter rejects price.");
-        blRejectedPrice = inputHandler.getPrice();
-        if(blRejectedPrice == -1){
+        double tempBlR = inputHandler.getPrice();
+        if(tempBlR == -1){
             System.out.println("ERROR - Price cannot be negative");
+            setBLDailyPrice();
+        }else{
+            setBlRejectedPrice(tempBlR);
+        }
+
+        System.out.println("Your prices are: \nGrade A: " + getBlGradeAPrice()
+                + "\nGrade B: " + getBlGradeBPrice() + "\nGrade C: " + getBlGradeCPrice()
+                + "\nRejects: " + getBlRejectedPrice() + "\nIs this correct?");
+        System.out.println("1. YES - SAVE");
+        System.out.println("2. NO - RESTART");
+        int confirm = inputHandler.decide(1,2);
+        if(confirm == 2){
             setBLDailyPrice();
         }
     }
 
     void setGODailyPrice() {
-        String[] listOfFruits = {"Strawberry", "Raspberry", "Blackberry", "Gooseberry"};
         System.out.println("\nPlease enter prices for " + listOfFruits[3]);
         batch.setFruit(listOfFruits[3]);
         System.out.println("Please enter grade A price.");
-        goGradeAPrice = inputHandler.getPrice();
-        if(goGradeAPrice == -1){
+        double tempGoA = inputHandler.getPrice();
+        if(tempGoA == -1){
             System.out.println("ERROR - Price cannot be negative");
             setGODailyPrice();
+        }else{
+            setGoGradeAPrice(tempGoA);
         }
+
         System.out.println("Please enter grade B price.");
-        goGradeBPrice = inputHandler.getPrice();
-        if(goGradeAPrice == -1){
+        double tempGoB = inputHandler.getPrice();
+        if(tempGoB == -1){
             System.out.println("ERROR - Price cannot be negative");
             setGODailyPrice();
+        }else{
+            setGoGradeBPrice(tempGoB);
         }
         System.out.println("Please enter grade C price.");
-        goGradeCPrice = inputHandler.getPrice();
-        if(goGradeAPrice == -1){
+        double tempGoC = inputHandler.getPrice();
+        if(tempGoC == -1){
             System.out.println("ERROR - Price cannot be negative");
             setGODailyPrice();
+        }else{
+            setGoGradeCPrice(tempGoC);
         }
+
         System.out.println("Please enter rejects price.");
-        goRejectedPrice = inputHandler.getPrice();
-        if(goGradeAPrice == -1){
+        double tempGoR = inputHandler.getPrice();
+        if(tempGoR == -1){
             System.out.println("ERROR - Price cannot be negative");
+            setGODailyPrice();
+        }else{
+            setGoRejectedPrice(tempGoR);
+        }
+
+        System.out.println("Your prices are: \nGrade A: " + goGradeAPrice
+                + "\nGrade B: " + goGradeBPrice + "\nGrade C: " + goGradeCPrice
+                + "\nRejects: " + goRejectedPrice + "\nIs this correct?");
+        System.out.println("1. YES - SAVE");
+        System.out.println("2. NO - RESTART");
+        int confirm = inputHandler.decide(1,2);
+        if(confirm == 2){
             setGODailyPrice();
         }
     }
@@ -139,6 +220,26 @@ public class Prices {
                 goGradeAPrice, goGradeBPrice, goGradeCPrice, goRejectedPrice);
 
     }
+
+    public void setStGradeAPrice(double stGradeAPrice) { this.stGradeAPrice = stGradeAPrice; }
+    public void setStGradeBPrice(double stGradeBPrice) { this.stGradeBPrice = stGradeBPrice; }
+    public void setStGradeCPrice(double stGradeCPrice) { this.stGradeCPrice = stGradeCPrice; }
+    public void setStRejectedPrice(double stRejectedPrice) { this.stRejectedPrice = stRejectedPrice; }
+
+    public void setRaGradeAPrice(double raGradeAPrice) { this.raGradeAPrice = raGradeAPrice; }
+    public void setRaGradeBPrice(double raGradeBPrice) { this.raGradeBPrice = raGradeBPrice; }
+    public void setRaGradeCPrice(double raGradeCPrice) { this.raGradeCPrice = raGradeCPrice; }
+    public void setRaRejectedPrice(double raRejectedPrice) { this.raRejectedPrice = raRejectedPrice; }
+
+    public void setBlGradeAPrice(double blGradeAPrice) { this.blGradeAPrice = blGradeAPrice; }
+    public void setBlGradeBPrice(double blGradeBPrice) { this.blGradeBPrice = blGradeBPrice; }
+    public void setBlGradeCPrice(double blGradeCPrice) { this.blGradeCPrice = blGradeCPrice; }
+    public void setBlRejectedPrice(double blRejectedPrice) { this.blRejectedPrice = blRejectedPrice; }
+
+    public void setGoGradeAPrice(double goGradeAPrice) { this.goGradeAPrice = goGradeAPrice; }
+    public void setGoGradeBPrice(double goGradeBPrice) { this.goGradeBPrice = goGradeBPrice; }
+    public void setGoGradeCPrice(double goGradeCPrice) { this.goGradeCPrice = goGradeCPrice; }
+    public void setGoRejectedPrice(double goRejectedPrice) { this.goRejectedPrice = goRejectedPrice; }
 
     public double getStGradeAPrice() { return stGradeAPrice; }
     public double getStGradeBPrice() { return stGradeBPrice; }
@@ -160,5 +261,7 @@ public class Prices {
     public double getGoGradeCPrice() { return goGradeCPrice; }
     public double getGoRejectedPrice() { return goRejectedPrice; }
 
+    public String[] getListOfFruits() { return listOfFruits; }
 
+    public void setListOfFruits(String[] listOfFruits) { this.listOfFruits = listOfFruits; }
 }
