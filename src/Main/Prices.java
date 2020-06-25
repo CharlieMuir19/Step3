@@ -8,15 +8,19 @@ public class Prices {
     private InputHandler inputHandler;
     private Batch batch;
 
+    //Prices constructor sets inputhandler, jsonProcessor and batch to be used throughout the prices class
     public Prices(Batch batch, InputHandler inputHandler, JSONProcessor jsonP) {
         this.inputHandler = inputHandler;
         this.jsonP = jsonP;
         this.batch = batch;
     }
 
+    //This method retrieves the prices from the user using the getPrice method from the inputHandler instance
+    //then validates if price is not negative. If negative, it starts the process for prices for Strawberry
+    //if valid, the program sets the Strawberry prices
     void setSTDailyPrice() {
         System.out.println("\nPlease enter prices for " + listOfFruits[0]);
-        System.out.println("Please enter grade A price. \n£");
+        System.out.println("Please enter grade A price. \n");
         double tempStA = inputHandler.getPrice();
         if(tempStA == -1){
             System.out.println("ERROR - Price cannot be negative");
@@ -52,6 +56,8 @@ public class Prices {
             setStRejectedPrice(tempStR);
         }
 
+        //We ask the user to validate before saving prices, if not valid we repeat the method,
+        //if valid, the program goes to the next method called in the processor class.
         System.out.println("Your prices are: \nGrade A: " + getStGradeAPrice()
         + "\nGrade B: " + getStGradeBPrice() + "\nGrade C: " + getStGradeCPrice()
         + "\nRejects: " + getStRejectedPrice() + "\nIs this correct?");
@@ -63,6 +69,8 @@ public class Prices {
         }
     }
 
+
+    //The rest of the setDailyPrices methods have the same functionality as described above.
     void setRADailyPrice() {
         System.out.println("\nPlease enter prices for " + listOfFruits[1]);
         batch.setFruit(listOfFruits[1]);
@@ -202,9 +210,9 @@ public class Prices {
             setGoRejectedPrice(tempGoR);
         }
 
-        System.out.println("Your prices are: \nGrade A: " + goGradeAPrice
-                + "\nGrade B: " + goGradeBPrice + "\nGrade C: " + goGradeCPrice
-                + "\nRejects: " + goRejectedPrice + "\nIs this correct?");
+        System.out.println("Your prices are: \nGrade A: " + getGoGradeAPrice()
+                + "\nGrade B: " + getGoGradeBPrice() + "\nGrade C: " + getGoGradeCPrice()
+                + "\nRejects: " + getGoRejectedPrice() + "\nIs this correct?");
         System.out.println("1. YES - SAVE");
         System.out.println("2. NO - RESTART");
         int confirm = inputHandler.decide(1,2);
@@ -213,6 +221,8 @@ public class Prices {
         }
     }
 
+    //Once all prices are set, inside the processor setPrices method this method is called
+    //we pass all the values as a parameter to the write to json file method inside the jsonProcessor class.
     public void savePricesToFile(String date){
         jsonP.writeJSONPriceFile(date, stGradeAPrice, stGradeBPrice, stGradeCPrice, stRejectedPrice,
                 raGradeAPrice, raGradeBPrice, raGradeCPrice, raRejectedPrice,
@@ -221,6 +231,7 @@ public class Prices {
 
     }
 
+    //setters for all fruit and grades
     public void setStGradeAPrice(double stGradeAPrice) { this.stGradeAPrice = stGradeAPrice; }
     public void setStGradeBPrice(double stGradeBPrice) { this.stGradeBPrice = stGradeBPrice; }
     public void setStGradeCPrice(double stGradeCPrice) { this.stGradeCPrice = stGradeCPrice; }
@@ -241,6 +252,7 @@ public class Prices {
     public void setGoGradeCPrice(double goGradeCPrice) { this.goGradeCPrice = goGradeCPrice; }
     public void setGoRejectedPrice(double goRejectedPrice) { this.goRejectedPrice = goRejectedPrice; }
 
+    //getters for all fruit and grades
     public double getStGradeAPrice() { return stGradeAPrice; }
     public double getStGradeBPrice() { return stGradeBPrice; }
     public double getStGradeCPrice() { return stGradeCPrice; }

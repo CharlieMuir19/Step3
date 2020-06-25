@@ -1,19 +1,18 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-
 //The Processor class processes print statements, retrieves input and if valid passes input to Batch file to be saved.
 //The Processor class also saves batch details to a json file in a defined filepath.
 public class Processor {
 
-    //We create instances of Batch, Fruit, JSONProcessor and InputHandler to access methods to get and set data.
+    //We create instances of Batch, Fruit, JSONProcessor, InputHandler and Price to access methods to get and set data.
     private Batch b;
     private Fruit f;
     private JSONProcessor jsonP;
     private InputHandler inputHandler;
     private Prices p;
 
-    //Processor constructor sets batch, fruit and inputhandler to start, and creates a new JSONProcessor
+    //Processor constructor sets batch, fruit and inputhandler to start, and creates a new JSONProcessor and a new Prices instance
     public Processor(Batch b, Fruit fruit, InputHandler inputHandler) {
         this.b = b;
         this.f = fruit;
@@ -30,6 +29,9 @@ public class Processor {
         selectFunction();
     }
 
+    //When the program begins, we call this method to check if a price file for that day exists.
+   //if the file exists, we generate and display the date, then display the prices to the users that have been set in the file
+    //if a file doesn't exist already, we force the user to generate prices for the day.
     private void checkDailyPrice() {
         String date = generateDate();
         boolean pricingFile = jsonP.checkJSONPrice(date);
@@ -44,10 +46,8 @@ public class Processor {
             if(decide==1){
                 setPrices();
             }
-
         }
     }
-
 
 
     //displays to the user the options they can take inside the program
@@ -74,7 +74,7 @@ public class Processor {
     }
 
     //Based on the input, decide whether to create a new batch, list batches,
-    // get specific batch details, sort/grade batches or quit the system.
+    // get specific batch details, sort/grade batches, set the prices for the day or quit the system.
     private void startChoice() {
         int startChoice = inputHandler.decide(1, 6);
         switch (startChoice) {
@@ -231,6 +231,8 @@ public class Processor {
         }
     }
 
+    //The setPrices method calls each individual fruit setting method in the price class
+    //After all prices have been validated and set, they are then set in the save prices to file method in the price class
     public void setPrices() {
         System.out.println("[All prices entered will be formatted to 2dp.]");
         String date = generateDate();

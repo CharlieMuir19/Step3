@@ -70,6 +70,10 @@ public class InputHandler {
         return grade;
     }
 
+    //this method is used to get the price from user, and validate whether it is positive or negative.
+    //if negative, we ask again to repeat back in the method where this is called,
+    //if positive we pass the value back to be used and stored.
+    //we format all input to 2 decimal places.
     public static double getPrice() {
         //sourced the decimal format for the price from an answer on a stack overflow forum
         //https://stackoverflow.com/questions/2808535/round-a-double-to-2-decimal-places
