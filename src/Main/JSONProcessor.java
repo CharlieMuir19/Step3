@@ -270,6 +270,8 @@ public class JSONProcessor {
         }
     }
 
+    //we use a FileReader to determine whether we find a file for prices already in our filepath
+    //we return true if we have set values already, and we return false if the file is not found
     public boolean checkJSONPrice(String date) {
         try (FileReader reader = new FileReader("C:\\Users\\GA\\Documents\\Year1\\CS112 Programming 1- T3 Project\\step1Output\\" + date + "PRICING.json")) {
             System.out.println("\n\nPrices for " + date + " have been set.\n");
@@ -280,6 +282,7 @@ public class JSONProcessor {
         }
     }
 
+    //All the values have been passed as parameters to be stored inside the JSON file.
     public void writeJSONPriceFile(String date, double stGradeAPrice, double stGradeBPrice, double stGradeCPrice, double stRejectedPrice,
                                    double raGradeAPrice, double raGradeBPrice, double raGradeCPrice, double raRejectedPrice,
                                    double blGradeAPrice, double blGradeBPrice, double blGradeCPrice, double blRejectedPrice,
@@ -307,18 +310,18 @@ public class JSONProcessor {
 
         pricingObject.put("Pricing Details: ", pricingDetails);
 
-        //Write to the JSON file
         Path filepath = Paths.get("C:\\Users\\GA\\Documents\\Year1\\CS112 Programming 1- T3 Project\\step1Output\\" + date + "PRICING.json");
-
+        //Write to the JSON file
         try (FileWriter file = new FileWriter(String.valueOf(filepath))) {
             file.write(pricingObject.toJSONString());
             file.flush();
             System.out.println("Prices saved to " + date + "PRICING.json");
         } catch (IOException e) {
-            System.out.println("Prices have already been set for the day.");
+            System.out.println("Could not save prices at this time.");
         }
     }
 
+    //If prices are set, we access the file and then read the values out from the file
     public void readJSONPrices(String date){
         JSONParser jsonParser = new JSONParser();
         try (FileReader reader = new FileReader("C:\\Users\\GA\\Documents\\Year1\\CS112 Programming 1- T3 Project\\step1Output\\" + date + "PRICING.json")) {
@@ -331,6 +334,7 @@ public class JSONProcessor {
         }
     }
 
+    //This method reads what is inside the file and displays all the prices to the user.
     private void readPricingObject(JSONObject btc) {
         JSONObject pricingObjects = (JSONObject) btc.get("Pricing Details: ");
         System.out.println("[Farmers prices]\nStrawberries: ");
