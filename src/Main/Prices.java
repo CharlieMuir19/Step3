@@ -1,4 +1,8 @@
+//The class Prices sets all the prices for fruit for the day and proceeds to save them to a JSON file
+//This class uses instances of InputHandler to get price input from user,
+//JSONProcessor to save values to file
 public class Prices {
+
     String[] listOfFruits = {"Strawberry", "Raspberry", "Blackberry", "Gooseberry"};
     double stGradeAPrice = 0; double stGradeBPrice = 0; double stGradeCPrice = 0; double stRejectedPrice = 0;
     double raGradeAPrice = 0; double raGradeBPrice = 0; double raGradeCPrice = 0; double raRejectedPrice = 0;
@@ -6,13 +10,11 @@ public class Prices {
     double goGradeAPrice = 0; double goGradeBPrice = 0; double goGradeCPrice = 0; double goRejectedPrice = 0;
     private JSONProcessor jsonP;
     private InputHandler inputHandler;
-    private Batch batch;
 
-    //Prices constructor sets inputhandler, jsonProcessor and batch to be used throughout the prices class
-    public Prices(Batch batch, InputHandler inputHandler, JSONProcessor jsonP) {
+    //Prices constructor sets inputhandler and jsonProcessor to be used throughout the prices class
+    public Prices(InputHandler inputHandler, JSONProcessor jsonP) {
         this.inputHandler = inputHandler;
         this.jsonP = jsonP;
-        this.batch = batch;
     }
 
     //This method retrieves the prices from the user using the getPrice method from the inputHandler instance
@@ -73,7 +75,6 @@ public class Prices {
     //The rest of the setDailyPrices methods have the same functionality as described above.
     void setRADailyPrice() {
         System.out.println("\nPlease enter prices for " + listOfFruits[1]);
-        batch.setFruit(listOfFruits[1]);
         System.out.println("Please enter grade A price.");
         double tempRaA = inputHandler.getPrice();
         if(tempRaA == -1){
@@ -124,7 +125,6 @@ public class Prices {
 
     void setBLDailyPrice() {
         System.out.println("\nPlease enter prices for " + listOfFruits[2]);
-        batch.setFruit(listOfFruits[2]);
         System.out.println("Please enter grade A price.");
         double tempBlA = inputHandler.getPrice();
         if(tempBlA == -1){
@@ -174,7 +174,6 @@ public class Prices {
 
     void setGODailyPrice() {
         System.out.println("\nPlease enter prices for " + listOfFruits[3]);
-        batch.setFruit(listOfFruits[3]);
         System.out.println("Please enter grade A price.");
         double tempGoA = inputHandler.getPrice();
         if(tempGoA == -1){
