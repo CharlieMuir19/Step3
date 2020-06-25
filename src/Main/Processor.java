@@ -38,15 +38,6 @@ public class Processor {
             displayDate();
             jsonP.readJSONPrices(date);
         } else if (!pricingFile) {
-//            System.out.println("Would you like to enter pricing for " + date + "?");
-//            System.out.println("1.YES");
-//            System.out.println("2.NO");
-//            int decide = inputHandler.decide(1, 2);
-//            if (decide == -1) {
-//                checkDailyPrice();
-//            } else if (decide == 1) {
-//                setPrices();
-//            }
             System.out.println("There are no current prices saved for today. Please enter todays prices.");
             System.out.println("Enter 1 to confirm.");
             int decide = inputHandler.decide(1, 1);
